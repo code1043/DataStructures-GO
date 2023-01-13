@@ -1,6 +1,7 @@
 package liner
 
-type Book struct { //图书信息
+// 图书信息
+type Book struct {
 	ISBN  string  // 图书ISBN
 	Name  string  // 图书名字
 	Price float64 // 图书价格
