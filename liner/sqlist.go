@@ -16,6 +16,13 @@ func NewSqList() *SqList {
 	return &SqList{}
 }
 
+// 销毁线性表
+func DestroySqList(sq **SqList) {
+	(*sq).elem = nil
+	(*sq).length = 0
+	*sq = nil
+}
+
 /**
  * 获取值
  * 根据位置i获取相应位置数据元素的内容
@@ -165,13 +172,6 @@ func (sq *SqList) DeleteAtElem(e ElemType) (ElemType, error) {
 	}
 
 	return e, nil
-}
-
-// 销毁线性表
-func (sq *SqList) Destroy() {
-	sq.elem = nil
-	sq.length = 0
-	sq = nil
 }
 
 // 清空线性表
