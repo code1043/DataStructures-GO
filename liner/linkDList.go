@@ -1,39 +1,38 @@
 package liner
 
-/**
- * 线性表的链式存储结构实现
- */
-
 import (
 	"errors"
 	"fmt"
 )
 
-// 声明节点的类型
-type Lnode struct {
-	data ElemType // 数据域
-	next *Lnode   // 指针域
+/**
+ * 线性表的链式存储结构实现 -- 双向链表
+ */
+
+type LDnode struct {
+	data        ElemType //数据域
+	prior, next *LDnode  //指针域
 }
 
 // 声明链表的类型
-type LinkList struct {
-	length int    // 链表的长度
-	head   *Lnode // 指向头节点
+type LinkDList struct {
+	length int     // 链表的长度
+	link   *LDnode // 数据元素的指针
 }
 
 /**
- * 创建一个单链表
+ * 创建一个双向单链表
  * 长度初始化未1
  * head初始化未节点
  */
-func NewLinkList() *LinkList {
-	return &LinkList{length: 0, head: &Lnode{data: 1043}}
+func NewLinkDList() *LinkDList {
+	return &LinkDList{length: 0, link: &LDnode{data: 1043}}
 }
 
 /**
  * 销毁指针
  */
-func DestroyLinkList(l **LinkList) {
+func DestroyLinkDList(l **LinkDList) {
 
 	/**
 	 * 链表：头指针、头节点、首元节点
@@ -42,33 +41,23 @@ func DestroyLinkList(l **LinkList) {
 	(*l).Clear()
 
 	//头节点销毁
-	(*l).head = nil
+	(*l).link = nil
 
 	//链表销毁
 	(*l) = nil
 }
 
 /**
- * 判断链表是否为空
- * 判断逻辑，头节点的指针域是否为nil
- * 若是则链表为空
- * 否则链表不为空
- */
-func (l *LinkList) IsEmpty() bool {
-	return l.head.next == nil
-}
-
-/**
  * 清空列表
  * 即保留头指针和头节点
  */
-func (l *LinkList) Clear() {
+func (l *LinkDList) Clear() {
 	/**
 	 * 链表：头指针、头节点
 	 */
 
 	// 指向头节点
-	p := l.head
+	p := l.link
 	//循环链表
 	for p.next != nil {
 
@@ -91,7 +80,7 @@ func (l *LinkList) Clear() {
  * 实现逻辑，循环节点+ 1
  */
 
-func (l *LinkList) Length() int {
+func (l *LinkDList) Length() int {
 
 	// //累加变量
 	// count := 0
@@ -110,71 +99,16 @@ func (l *LinkList) Length() int {
 }
 
 /**
- * 取值，取单链表中第i个元素
+ * 判断链表是否为空
+ * 判断逻辑，头节点的指针域是否为nil
+ * 若是则链表为空
+ * 否则链表不为空
  */
-func (l *LinkList) GetAtPosition(i int, e *ElemType) (int, error) {
-
-	//判断位置是否合法
-	if i < 1 || i > l.Length() {
-		return 0, errors.New("超出线性表范围")
-	}
-
-	//累加器
-	count := 0
-
-	//获取首元节点
-	node := l.head.next
-
-	for node != nil {
-		count += 1
-		if count == i {
-			break
-		} else {
-			node = node.next
-		}
-
-	}
-
-	if node == nil {
-		return 0, errors.New("未找到元素")
-	} else {
-		*e = node.data
-		return 1, nil
-	}
-
+func (l *LinkDList) IsEmpty() bool {
+	return l.link.next == nil
 }
 
-/**
- * 按值查找
- */
-
-func (l *LinkList) GetAtElem(e ElemType, i *int) (int, error) {
-
-	//累加器
-	count := 0
-
-	//获取首元节点
-	node := l.head.next
-	for node != nil {
-		count += 1
-		if node.data == e {
-			break
-		} else {
-			node = node.next
-		}
-
-	}
-
-	if node == nil {
-		return 0, errors.New("未找到元素")
-	} else {
-		*i = count
-		return 1, nil
-	}
-
-}
-
-func (l *LinkList) Insert(e ElemType, i int) (int, error) {
+func (l *LinkDList) Insert(e ElemType, i int) (int, error) {
 
 	//判断位置是否合法
 	if i < 1 || i > l.Length()+1 {
@@ -185,7 +119,7 @@ func (l *LinkList) Insert(e ElemType, i int) (int, error) {
 	count := 0
 
 	//获取头节点
-	node := l.head
+	node := l.link
 
 	for node != nil {
 		count += 1
@@ -200,8 +134,27 @@ func (l *LinkList) Insert(e ElemType, i int) (int, error) {
 	if node == nil {
 		return 0, errors.New("未找到元素")
 	} else {
-		node.next = &Lnode{e, node.next}
+		fmt.Println("开始插入")
+		// fmt.Println(node)
+
+		// 创建一个新的节点 newNode
+		// 新节点的prior指向 node
+		// 新节点的next指向 node.next
+		// node.next.prior 指向newNode
+		// node.next 指向 newNode
+
+		newNode := &LDnode{data: e, prior: node, next: node.next}
+		if node.next != nil {
+			node.next.prior = newNode
+			fmt.Println("prior", node.next.prior)
+		}
+		node.next = newNode
+
 		l.length += 1
+		fmt.Println("插入结束")
+
+		// node.next.prior = &LDnode{data: e, prior: node, next: node.next}
+		// node.next = node.next.prior
 		return 1, nil
 	}
 
@@ -210,7 +163,7 @@ func (l *LinkList) Insert(e ElemType, i int) (int, error) {
 /**
  * 删除第i个节点的数据
  */
-func (l *LinkList) Delete(i int) (int, error) {
+func (l *LinkDList) Delete(i int) (int, error) {
 
 	//判断位置是否合法
 	if i < 1 || i > l.Length() {
@@ -220,8 +173,8 @@ func (l *LinkList) Delete(i int) (int, error) {
 	//累加器
 	count := 0
 
-	//获取首元节点
-	node := l.head
+	//获取数据元素域节点
+	node := l.link
 
 	for node != nil {
 		count += 1
@@ -237,12 +190,8 @@ func (l *LinkList) Delete(i int) (int, error) {
 		return 0, errors.New("未找到元素")
 	} else {
 
-		// n := node.next
-		// node.next = n.next
-		// n = nil
-
 		node.next = node.next.next
-
+		node.next.prior = node
 		return 1, nil
 	}
 
@@ -251,13 +200,13 @@ func (l *LinkList) Delete(i int) (int, error) {
 /**
  * 打印链表中的数据
  */
-func (l *LinkList) Print() {
+func (l *LinkDList) Print() {
 
-	node := l.head
+	node := l.link
 	fmt.Println("head:", node.data, node.next)
 	node = node.next
 	for node != nil {
-		fmt.Println("node:", node.data, node.next)
+		fmt.Printf("node: %v nodeptr: %p prior: %p  next: %p\n", node.data, node, node.prior, node.next)
 		node = node.next
 	}
 

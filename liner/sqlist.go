@@ -1,5 +1,9 @@
 package liner
 
+/**
+ * 线性表的顺序存储结构实现
+ */
+
 import (
 	"errors"
 )
