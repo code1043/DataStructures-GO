@@ -8,7 +8,56 @@ import (
 func main() {
 
 	// exampleSqList()
-	exampleLinkList()
+	// exampleLinkList()
+	exampleLinkDList()
+
+}
+
+/**
+ * 链式存储结构案例 - 双向链表
+ */
+func exampleLinkDList() {
+
+	//创建链表
+	l := liner.NewLinkDList()
+	fmt.Println(l.Length())
+
+	fmt.Println("---------start----------")
+	for i := 1; i <= 10; i++ {
+		l.Insert(liner.ElemType(i), i)
+	}
+	l.Insert(liner.ElemType(100), 1)
+	l.Insert(liner.ElemType(120), 2)
+	l.Insert(liner.ElemType(130), 1)
+	l.Insert(liner.ElemType(1043), 7)
+	l.Print()
+
+	// //根据位置获取元素
+	// var e liner.ElemType
+	// l.GetAtPosition(10, &e)
+	// fmt.Println(e)
+
+	// //根据元素获取位置
+	// var i int
+	// l.GetAtElem(10, &i)
+	// fmt.Println(i)
+
+	l.Delete(7)
+	l.Print()
+
+	// for i := 0; i < 12; i++ {
+	// 	l.Delete(1)
+	// }
+	// fmt.Println("删除后的链表")
+	// l.Print()
+
+	fmt.Println("-----------end-----------")
+
+	// // //销毁链表
+	liner.DestroyLinkDList(&l)
+	if l != nil {
+		l.Print()
+	}
 
 }
 
