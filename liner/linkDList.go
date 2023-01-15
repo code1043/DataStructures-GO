@@ -110,25 +110,10 @@ func (l *LinkDList) IsEmpty() bool {
 
 func (l *LinkDList) Insert(e ElemType, i int) (int, error) {
 
-	//判断位置是否合法
-	if i < 1 || i > l.Length()+1 {
-		return 0, errors.New("超出线性表范围")
-	}
-
-	//累加器
-	count := 0
-
-	//获取头节点
-	node := l.link
-
-	for node != nil {
-		count += 1
-		if count == i {
-			break
-		} else {
-			node = node.next
-		}
-
+	var node *LDnode
+	status, err := l.GetNode(i, &node)
+	if err != nil {
+		return status, err
 	}
 
 	if node == nil {
@@ -165,25 +150,10 @@ func (l *LinkDList) Insert(e ElemType, i int) (int, error) {
  */
 func (l *LinkDList) Delete(i int) (int, error) {
 
-	//判断位置是否合法
-	if i < 1 || i > l.Length() {
-		return 0, errors.New("超出线性表范围")
-	}
-
-	//累加器
-	count := 0
-
-	//获取数据元素域节点
-	node := l.link
-
-	for node != nil {
-		count += 1
-		if count == i {
-			break
-		} else {
-			node = node.next
-		}
-
+	var node *LDnode
+	status, err := l.GetNode(i, &node)
+	if err != nil {
+		return status, err
 	}
 
 	if node == nil {
@@ -195,6 +165,37 @@ func (l *LinkDList) Delete(i int) (int, error) {
 		return 1, nil
 	}
 
+}
+
+/**
+ * 获取指定位置的节点
+ * 并返回节点
+ */
+func (l *LinkDList) GetNode(i int, node **LDnode) (int, error) {
+
+	//判断位置是否合法
+	if i < 1 || i > l.Length()+1 {
+		return 0, errors.New("超出线性表范围")
+	}
+
+	//累加器
+	count := 0
+
+	//获取数据域
+	p := l.link
+
+	for p != nil {
+		count += 1
+		if count == i {
+			*node = p
+			break
+		} else {
+			p = p.next
+		}
+
+	}
+
+	return 1, nil
 }
 
 /**
