@@ -2,6 +2,7 @@ package main
 
 import (
 	"dataStructure/liner"
+	"dataStructure/stack"
 	"fmt"
 )
 
@@ -9,7 +10,41 @@ func main() {
 
 	// exampleSqList()
 	// exampleLinkList()
-	exampleLinkDList()
+	// exampleLinkDList()
+	exampleStackSq()
+
+}
+
+/**
+ * 栈的顺序存储结构案例
+ */
+func exampleStackSq() {
+
+	s := stack.NewStackSq(10)
+	s.Print()
+	for i := 0; i < 10; i++ {
+		status, err := s.Push(stack.ElemType(i + 1))
+		fmt.Println("error :", status, err)
+	}
+
+	status, err := s.Push(stack.ElemType(1043))
+	fmt.Println("error :", status, err)
+	s.Print()
+
+	//清空栈
+	s.Clear()
+	s.Print()
+
+	var e stack.ElemType
+	for i := 0; i < 10; i++ {
+		status, err := s.Pop(&e)
+		fmt.Println("error :", status, err)
+		fmt.Println(e)
+	}
+
+	status, err = s.Pop(&e)
+	fmt.Println("error :", status, err)
+	s.Print()
 
 }
 
