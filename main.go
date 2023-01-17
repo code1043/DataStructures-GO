@@ -11,7 +11,29 @@ func main() {
 	// exampleSqList()
 	// exampleLinkList()
 	// exampleLinkDList()
-	exampleStackSq()
+	// exampleStackSq()
+	exampleStackLink()
+
+}
+
+/**
+ * 栈的顺序存储结构案例
+ */
+func exampleStackLink() {
+	s := stack.NewStackLink()
+
+	for i := 0; i < 10; i++ {
+		s.Push(stack.ElemType(i + 1))
+	}
+	s.Print()
+
+	s.Clear()
+	s.Print()
+
+	var e stack.ElemType
+	status, err := s.Pop(&e)
+	fmt.Println("error :", status, err, e)
+	s.Print()
 
 }
 
