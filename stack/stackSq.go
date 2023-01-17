@@ -18,7 +18,7 @@ type StackSq struct {
 }
 
 func NewStackSq(cap int) *StackSq {
-	return &StackSq{top: 0, base: 0, cap: cap, elem: make([]ElemType, size), length: 0}
+	return &StackSq{top: 0, base: 0, cap: cap, elem: make([]ElemType, cap), length: 0}
 }
 
 /**
@@ -97,7 +97,7 @@ func (s *StackSq) Clear() {
  * 判断栈是否溢出
  */
 func (s *StackSq) IsFull() bool {
-	return s.top == s.size
+	return s.top == s.cap
 }
 
 /**
