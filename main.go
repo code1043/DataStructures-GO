@@ -2,6 +2,7 @@ package main
 
 import (
 	"dataStructure/liner"
+	"dataStructure/queue"
 	"dataStructure/stack"
 	"fmt"
 )
@@ -12,7 +13,41 @@ func main() {
 	// exampleLinkList()
 	// exampleLinkDList()
 	// exampleStackSq()
-	exampleStackLink()
+	// exampleStackLink()
+	exampleQueueSq()
+
+}
+
+/**
+ * 队列的顺序存储结构案例
+ */
+func exampleQueueSq() {
+
+	q := queue.NewQueueSq(10)
+	q.Print()
+	fmt.Println("---------开始入队-----------")
+	for i := 0; i < 10; i++ {
+		status, err := q.EnQueueSq(queue.ElemType(i + 1))
+		fmt.Println("error: ", status, err)
+	}
+	fmt.Println("---------结束入队-----------")
+	q.Print()
+
+	fmt.Println("---------开始出队-----------")
+	var e queue.ElemType
+	for i := 0; i < 5; i++ {
+		status, err := q.DeQueueSq(&e)
+		fmt.Println("error: ", status, err, e)
+	}
+	fmt.Println("---------结束出队-----------")
+	q.Print()
+	fmt.Println("---------开始入队-----------")
+	for i := 0; i < 10; i++ {
+		status, err := q.EnQueueSq(queue.ElemType(i + 1))
+		fmt.Println("error: ", status, err)
+	}
+	fmt.Println("---------结束入队-----------")
+	q.Print()
 
 }
 
