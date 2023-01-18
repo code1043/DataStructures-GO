@@ -14,7 +14,41 @@ func main() {
 	// exampleLinkDList()
 	// exampleStackSq()
 	// exampleStackLink()
-	exampleQueueSq()
+	// exampleQueueSq()
+	exampleQueueLink()
+
+}
+
+/**
+ * 队列的顺序存储结构案例
+ */
+func exampleQueueLink() {
+
+	q := queue.NewQueueQueueLink()
+	q.Print()
+	fmt.Println("---------开始入队-----------")
+	for i := 0; i < 10; i++ {
+		status, err := q.EnQueueSq(queue.ElemType(i + 1))
+		fmt.Println("error: ", status, err)
+	}
+	fmt.Println("---------结束入队-----------")
+	q.Print()
+
+	fmt.Println("---------开始出队-----------")
+	var e queue.ElemType
+	for i := 0; i < 5; i++ {
+		status, err := q.DeQueueSq(&e)
+		fmt.Println("error: ", status, err, e)
+	}
+	fmt.Println("---------结束出队-----------")
+	q.Print()
+	fmt.Println("---------开始入队-----------")
+	for i := 0; i < 10; i++ {
+		status, err := q.EnQueueSq(queue.ElemType(i + 1))
+		fmt.Println("error: ", status, err)
+	}
+	fmt.Println("---------结束入队-----------")
+	q.Print()
 
 }
 
