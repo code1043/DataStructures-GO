@@ -1,10 +1,10 @@
 package main
 
 import (
-	"dataStructure/liner"
-	"dataStructure/queue"
-	"dataStructure/stack"
 	"fmt"
+	"goDataStructure/liner"
+	"goDataStructure/queue"
+	"goDataStructure/stack"
 )
 
 func main() {
