@@ -1,10 +1,10 @@
 package main
 
 import (
+	"GODS/liner"
+	"GODS/queue"
+	"GODS/stack"
 	"fmt"
-	"goDataStructure/liner"
-	"goDataStructure/queue"
-	"goDataStructure/stack"
 )
 
 func main() {
